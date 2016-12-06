@@ -21,7 +21,7 @@
             ))
 
 ;; Org settings
-(setq org-tags-column 100)         ;; move tags to clo 100
+(setq org-tags-column -80)         ;; move tags to clo
 (setq org-startup-indented t)      ;; turn on indent mode by default
 
 (setq org-todo-keyword-faces
@@ -40,6 +40,9 @@
         ("c" "Circonus Todo" entry (file+headline "~/notes/circonus.org" "PROJ NEW")
          "* TASK %?\n:LOGBOOK:\n- State \"TASK\"       from              %U\n:END:"
          :prepend t
+         )
+        ("n" "Circonus Note" entry (file+headline "~/notes/circonus.org" "NOTES")
+         "* %u %?\n"
          ))
       )
 
