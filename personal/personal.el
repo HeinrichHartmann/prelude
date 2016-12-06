@@ -28,6 +28,7 @@
 (defun eterm ()
   "Start a terminal and rename buffer."
   (interactive)
+  (split-window)
   (ansi-term "/bin/zsh")
   )
 (global-set-key "\C-xt" 'eterm)
