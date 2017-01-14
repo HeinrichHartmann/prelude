@@ -51,15 +51,10 @@
       '((ccl ("ccl"))
         (clisp ("clisp" "-q"))
         (cmucl ("cmucl" "-quiet"))
-        (sbcl ("sbcl" "--noinform") :coding-system utf-8-unix)))
+        (sbcl ("/usr/local/bin/sbcl" "--noinform") :coding-system utf-8-unix)))
 
 ;; select the default value from slime-lisp-implementations
-(if (and (eq system-type 'darwin)
-         (executable-find "ccl"))
-    ;; default to Clozure CL on OS X
-    (setq slime-default-lisp 'ccl)
-  ;; default to SBCL on Linux and Windows
-  (setq slime-default-lisp 'sbcl))
+(setq slime-default-lisp 'sbcl)
 
 ;; Add fancy slime contribs
 (setq slime-contribs '(slime-fancy))
