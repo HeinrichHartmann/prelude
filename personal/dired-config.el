@@ -2,6 +2,11 @@
 ;; default dired parameters
 (setq dired-listing-switches "--all --group-directories-first --no-group -t -l")
 
+;; use gnu ls on MacOS
+(when (eq system-type 'darwin)
+  (setq insert-directory-program "/usr/local/bin/gls")
+  )
+
 ;; Omit hidden files in dired mode
 (setq dired-omit-files
       (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
