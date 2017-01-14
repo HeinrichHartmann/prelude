@@ -90,6 +90,14 @@
    ))
 (defalias 'pin 'pin-buffer-to-window)
 
+
+;; custom replace function
+(require 'thingatpt)
+(defun query-replace-symbol-at-point (replace-str)
+  (interactive "sReplacement: ")
+  (query-replace (thing-at-point 'symbol) replace-str)
+  )
+
 ;; Similar to: http://stackoverflow.com/questions/43765/pin-emacs-buffers-to-windows-for-cscope/65992#65992
 ;; and https://github.com/tyrust/dotfiles/blob/bec3b24f744fc234c5c9993ea85b2617255dfb5a/home/.emacs.d/ttt-lisp/minor_modes.el
 (define-minor-mode pin-mode
