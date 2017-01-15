@@ -1,6 +1,6 @@
 ;; use org-mode src distribution
-(add-to-list 'load-path "~/.org-mode/lisp/")
-(add-to-list 'load-path "~/.org-mode/lisp/contrib/lisp")
+(add-to-list 'load-path "~/.emacs.org-mode/lisp/")
+(add-to-list 'load-path "~/.emacs.org-mode/lisp/contrib/lisp")
 
 (if (file-directory-p "~/notes")
     (progn
