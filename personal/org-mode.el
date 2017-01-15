@@ -1,14 +1,34 @@
 ;; use org-mode src distribution
-(add-to-list 'load-path "~/git/org-mode/lisp/")
-(add-to-list 'load-path "~/git/org-mode/lisp/contrib/lisp")
+(add-to-list 'load-path "~/.org-mode/lisp/")
+(add-to-list 'load-path "~/.org-mode/lisp/contrib/lisp")
 
+(if (file-directory-p "~/notes")
+    (progn
+	;; Set to the location of your Org files on your local system
+	(setq org-directory  "~/notes")
+	(setq org-agenda-files '("~/notes/circonus.org" "~/notes/private.org"))
+	;; Set to the name of the file where new notes will be stored
+	(setq org-mobile-inbox-for-pull "~/notes/flagged.org")
+	;; Capture
+	(setq org-capture-templates
+	      '(("r" "Reading List" entry (file "~/notes/read.org")
+		 "* TODO %?\n:PROPERTIES:\n:ADDED: %u\n:END:"
+		 )
+		("c" "Circonus Todo" entry (file+headline "~/notes/circonus.org" "PROJ NEW")
+		 "* TASK %?\n:LOGBOOK:\n- State \"TASK\"       from              %U\n:END:"
+		 :prepend t
+		 )
+		("n" "Circonus Note" entry (file+headline "~/notes/circonus.org" "NOTES")
+		 "* %u %?\n"
+		 )
+		)
+	      )
+	)
+  )
 
-;; Set to the location of your Org files on your local system
-(setq org-directory "~/notes")
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/notes/flagged.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+(if (file-directory-p "~/Dropbox/Apps/MobileOrg")
+	;; Set to <your Dropbox root directory>/MobileOrg.
+    (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg"))
 
 ;; Global key bindings
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -32,21 +52,7 @@
         ("CANC" . "grey")
         ("GOAL" . "gold")))
 
-;; Capture
-(setq org-capture-templates
-      '(("r" "Reading List" entry (file "~/notes/read.org")
-         "* TODO %?\n:PROPERTIES:\n:ADDED: %u\n:END:"
-         )
-        ("c" "Circonus Todo" entry (file+headline "~/notes/circonus.org" "PROJ NEW")
-         "* TASK %?\n:LOGBOOK:\n- State \"TASK\"       from              %U\n:END:"
-         :prepend t
-         )
-        ("n" "Circonus Note" entry (file+headline "~/notes/circonus.org" "NOTES")
-         "* %u %?\n"
-         ))
-      )
 
-(setq org-agenda-files '("~/notes/circonus.org" "~/notes/private.org"))
 (setq org-refile-targets
       '(
         (nil :maxlevel . 3)    ;; first two headline levels
