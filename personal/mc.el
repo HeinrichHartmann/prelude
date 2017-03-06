@@ -5,3 +5,6 @@
 (global-set-key (kbd "C-S-a") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+
+(global-set-key (kbd "C-M-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-M-p") 'mc/mark-previous-like-this)
