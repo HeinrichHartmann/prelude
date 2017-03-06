@@ -54,9 +54,9 @@
 (setq system-uses-terminfo nil)
 
 ;; Don't show scroll-bars
-(if (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1)
-  )
+;; We don't have scroll-bar-mode when compiled without x
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
 (setq tab-width 2)
 
 ;; Simplify Projectile mode-line to "Projectile",
