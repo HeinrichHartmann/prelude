@@ -7,6 +7,12 @@
         *table--cell-newline-and-indent
         LaTeX-insert-left-brace
         backward-sexp
+        c-electric-colon
+        c-electric-delete-forward
+        c-electric-paren
+        c-electric-semi&comma
+        c-electric-slash
+        c-electric-star
         cperl-electric-brace
         cperl-electric-lbrace
         cperl-electric-paren
@@ -26,7 +32,9 @@
         kill-region
         kill-sentence
         kill-sexp
+        magit-unstage
         markdown-electric-backquote
+        markdown-enter-key
         markdown-exdent-or-delete
         org-beginning-of-line
         org-columns-edit-value
