@@ -122,5 +122,8 @@
 
 (global-set-key (kbd "C-.") 'repeat)
 
+(prelude-require-package 'multiple-cursors)
+(prelude-require-package 'ag)
+
 (provide 'personal)
 ;;; personal.el ends here
