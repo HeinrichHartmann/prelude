@@ -23,6 +23,7 @@
 (setq paradox-github-token "70c1b25c710f0a55bfefa30db45b847d76cac43f")
 
 (setq lua-indent-level 2)
+(setq sh-indentation 2)
 (setq-default c-basic-offset 2)
 
 (defun eterm ()
