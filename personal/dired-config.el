@@ -19,10 +19,17 @@
               dired-bibtex-unclean-extensions
               dired-texinfo-unclean-extensions))
 
+
+;; https://stackoverflow.com/questions/4115465/emacs-dired-too-much-information
+;(require 'ls-lisp)
+;(setq ls-lisp-use-insert-directory-program nil)
+
 (add-hook 'dired-mode-hook
           (lambda ()
             (dired-omit-mode 1)
+            (dired-hide-details-mode 1)  ;; don't show file permissions, etc. per default
             (local-set-key (kbd "C-c C-c") 'wdired-change-to-wdired-mode)
-                                        ; (local-set-key (kbd "u") 'dired-up-directory)
+            ; (local-set-key (kbd "u") 'dired-up-directory)
             (local-set-key (kbd "M-o") 'dired-omit-mode) ;; toggle omit mode
+            (dired-sort-toggle-or-edit)
             ))

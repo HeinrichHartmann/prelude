@@ -72,6 +72,8 @@
         indent-rigidly
         indent-rigidly-left
         org-capture
+        reposition-window
         toggle-input-method
         wdired-finish-edit
+        xterm-paste
         ))
