@@ -7,6 +7,9 @@
 
 (message "Loading personal.el")
 
+(prelude-require-package 'multiple-cursors)
+(prelude-require-package 'ag)
+
 ;; turn off menu bar mode
 (menu-bar-mode 0)
 
