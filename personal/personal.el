@@ -7,17 +7,28 @@
 
 (message "Loading personal.el")
 
+(prelude-require-package 'multiple-cursors)
+(prelude-require-package 'ag)
+
 ;; turn off menu bar mode
 (menu-bar-mode 0)
 
 ;; Don't clean up whitespace on save
 (setq prelude-clean-whitespace-on-save nil)
-(set-face-attribute 'default nil :height 130) ; set default font size
+
+
+; set default font size
+(set-face-attribute 'default nil :height 110)
+; (if (display-graphic-p)
+;     (set-face-attribute 'default nil :height 100) ; graphic mode
+;     (set-face-attribute 'default nil :height 110) ; terminal mode
+;     )
 
 ;; disable parenthesis-pair insertion mode in the most annoying situations
 (add-hook 'prelude-prog-mode-hook (lambda ()
                                     (smartparens-mode -1)
                                     (electric-pair-mode -1)
+                                    (abbrev-mode 1) ;; enable abbrev mode
                                     ) t)
 
 (setq paradox-github-token "70c1b25c710f0a55bfefa30db45b847d76cac43f")
@@ -122,8 +133,42 @@
 
 (global-set-key (kbd "C-.") 'repeat)
 
-(prelude-require-package 'multiple-cursors)
-(prelude-require-package 'ag)
+;; http://splash-of-open-sauce.blogspot.de/2009/08/aspell-causing-emacs-to-hang.html
+(setq-default ispell-extra-args  '("--sug-mode=ultra"))
+
+(defadvice compilation-start
+    (around inhidbit-display
+            (command &optional mode name-function highlight-regexp))
+  (flet ((display-buffer)) (fset 'display-buffer 'ignore) ad-do-it))
+(ad-activate 'compilation-start)
+; (ad-deactivate 'compilation-start)
+
+(require 'ansi-color)
+(defun endless/colorize-compilation ()
+  "Colorize from `compilation-filter-start' to `point'."
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+     compilation-filter-start (point))))
+
+(add-hook 'compilation-filter-hook
+          #'endless/colorize-compilation)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun git2ps ()
+  (interactive)
+  "Print buffer with git2ps"
+  (setq fn (buffer-file-name))
+  (if fn
+      (progn
+        (shell-command (format "git2ps.sh %s" fn))
+        (shell-command "open src.ps")
+        )
+    (print "No backing file")
+    )
+  )
+
+(add-to-list 'auto-mode-alist '("\\.json.m4\\'" . json-mode))
 
 (provide 'personal)
 ;;; personal.el ends here
