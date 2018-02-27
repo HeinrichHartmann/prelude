@@ -13,10 +13,6 @@
 ;; turn off menu bar mode
 (menu-bar-mode 0)
 
-;; Don't clean up whitespace on save
-(setq prelude-clean-whitespace-on-save nil)
-
-
 ; set default font size
 (set-face-attribute 'default nil :height 110)
 ; (if (display-graphic-p)
@@ -154,22 +150,43 @@
 (add-hook 'compilation-filter-hook
           #'endless/colorize-compilation)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(defun git2ps ()
+;; Don't clean up whitespace on save
+(setq prelude-clean-whitespace-on-save nil)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun print2pdf ()
   (interactive)
   "Print buffer with git2ps"
   (setq fn (buffer-file-name))
   (if fn
       (progn
-        (shell-command (format "git2ps.sh %s" fn))
-        (shell-command "open src.ps")
+        (shell-command (format "git2ps %s" fn))
+        (shell-command "ps2pdf -sPAPERSIZE=A4 src.ps")
+        (shell-command "open src.pdf")
         )
     (print "No backing file")
     )
   )
 
 (add-to-list 'auto-mode-alist '("\\.json.m4\\'" . json-mode))
+
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-o") 'neotree-quick-look)
+            ))
+
+(add-hook'lua-mode-hook (lambda () (linum-mode t)))
+
+(setq prelude-flyspell nil) ;; don't flyspell
+(global-font-lock-mode t)
+
+(defun nl ()
+  (interactive)
+  "Toogle linum-mode"
+  (linum-mode)
+  )
+
 
 (provide 'personal)
 ;;; personal.el ends here
