@@ -25,14 +25,17 @@
         dired-next-line
         easy-kill
         electric-newline-and-maybe-indent
+        end-of-visual-line
         eval-print-last-sexp
         forward-sexp
         indent-for-tab-command
         iy-go-to-char--command
+        iy-go-to-char-quit
         kill-region
         kill-sentence
         kill-sexp
         magit-unstage
+        markdown-cycle
         markdown-electric-backquote
         markdown-enter-key
         markdown-exdent-or-delete
