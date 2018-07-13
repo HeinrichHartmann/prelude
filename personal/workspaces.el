@@ -22,5 +22,33 @@
   (flyspell-mode-on)
   )
 
+(defun wp-circ ()
+    (interactive)
+    ;; |1 |2  |3|
+    ;; |  |-----|
+    ;; |  |4    |
+    (make-frame)
+    (delete-other-windows)
+    (cd "~/circ-workbench")
+    (neotree)
+    (set-window-parameter (selected-window) 'window-numbering-nr 7)
+    (next-multiframe-window)
+    (split-window-vertically -15)
+    (next-multiframe-window) ;;-> 4
+    (switch-to-buffer "*compilation*")
+    (compilation-mode)
+    (pin)
+    (set-window-parameter (selected-window) 'window-numbering-nr 8)
+    (previous-multiframe-window) ;; -> 1
+    (split-window-horizontally -50)
+    (next-multiframe-window) ;; -> 3
+    (find-file "~/circ-workbench/agenda.org")
+    (pin)
+    (set-window-parameter (selected-window) 'window-numbering-nr 9)
+    (previous-multiframe-window) ;; -> 2
+    (find-file "~/circ-workbench/src/")
+    )
+
+
 (provide 'workspaces)
 ;;; workspaces.el ends here

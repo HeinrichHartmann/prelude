@@ -70,7 +70,7 @@
 (org-babel-do-load-languages
 'org-babel-load-languages
 '(
-  (sh . t)
+  (shell . t)
   (python . t)
   (ditaa . t)
   (dot . t)
@@ -78,7 +78,7 @@
   (lisp . t)
   (lua . t)
   ))
-(setq org-babel-sh-command "bash") ;; use bash instead of dash/sh
+(setq org-babel-shell-command "bash") ;; use bash instead of dash/sh
 
 (setq org-export-backends '(ascii
                        html
