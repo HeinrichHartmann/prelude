@@ -14,11 +14,11 @@
 (menu-bar-mode 0)
 
 ; set default font size
-(set-face-attribute 'default nil :height 110)
-; (if (display-graphic-p)
-;     (set-face-attribute 'default nil :height 100) ; graphic mode
-;     (set-face-attribute 'default nil :height 110) ; terminal mode
-;     )
+; (set-face-attribute 'default nil :height 110)
+(if (display-graphic-p)
+    (set-face-attribute 'default nil :height 100) ; graphic mode
+    (set-face-attribute 'default nil :height 110) ; terminal mode
+    )
 
 ;; disable parenthesis-pair insertion mode in the most annoying situations
 (add-hook 'prelude-prog-mode-hook (lambda ()
@@ -29,7 +29,8 @@
 
 (setq paradox-github-token "70c1b25c710f0a55bfefa30db45b847d76cac43f")
 
-(setq lua-indent-level 2)
+;; indentation
+(setq js-indent-level 2)
 (setq sh-indentation 2)
 (setq-default c-basic-offset 2)
 
@@ -66,11 +67,6 @@
 
 (setq tab-width 2)
 
-;; Simplify Projectile mode-line to "Projectile",
-;; so that it does not slow down tramp while inferring a project name.
-;; http://emacs.stackexchange.com/questions/17543/tramp-mode-is-much-slower-than-using-terminal-to-ssh
-(setq projectile-mode-line " Proj")
-
 (setq vc-ignore-dir-regexp
       (format "\\(%s\\)\\|\\(%s\\)"
               vc-ignore-dir-regexp
@@ -85,9 +81,6 @@
       (format "\\(%s\\)\\|\\(%s\\)"
               vc-ignore-dir-regexp
               tramp-file-name-regexp))
-
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
 
 (defun pin-buffer-to-window ()
   "Pin buffer to current window."
@@ -119,7 +112,7 @@
 (defun url-open (url)
   (interactive "sURL: ")
   (let ((buffer url))
-    2(with-output-to-temp-buffer buffer
+    (with-output-to-temp-buffer buffer
       (shell-command (format "curl -s %s" url) buffer)
       (pop-to-buffer buffer))))
 
@@ -132,24 +125,24 @@
 ;; http://splash-of-open-sauce.blogspot.de/2009/08/aspell-causing-emacs-to-hang.html
 (setq-default ispell-extra-args  '("--sug-mode=ultra"))
 
-(defadvice compilation-start
-    (around inhidbit-display
-            (command &optional mode name-function highlight-regexp))
-  (flet ((display-buffer)) (fset 'display-buffer 'ignore) ad-do-it))
-(ad-activate 'compilation-start)
-; (ad-deactivate 'compilation-start)
 
-(require 'ansi-color)
-(defun endless/colorize-compilation ()
-  "Colorize from `compilation-filter-start' to `point'."
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region
-     compilation-filter-start (point))))
+;; focus compilation buffer after evaluation
+(defun hh-advice-focus (orig-fun &rest args)
+  (switch-to-buffer-other-window (apply orig-fun args)))
+(advice-add 'projectile-compile-project :around #'hh-advice-focus)
 
-(add-hook 'compilation-filter-hook
-          #'endless/colorize-compilation)
+;; Alrey part of prelude 
+;; (require 'ansi-color)
+;; (defun endless/colorize-compilation ()
+;;   "Colorize from `compilation-filter-start' to `point'."
+;;   (let ((inhibit-read-only t))
+;;     (ansi-color-apply-on-region
+;;      compilation-filter-start (point))))
+;; (add-hook 'compilation-filter-hook
+;;           #'endless/colorize-compilation)
 
-
+;; Disable whitespace mode
+(setq prelude-whitespace nil)
 ;; Don't clean up whitespace on save
 (setq prelude-clean-whitespace-on-save nil)
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -175,8 +168,6 @@
             (local-set-key (kbd "C-o") 'neotree-quick-look)
             ))
 
-(add-hook'lua-mode-hook (lambda () (linum-mode t)))
-
 (setq prelude-flyspell nil) ;; don't flyspell
 (global-font-lock-mode t)
 
@@ -185,6 +176,73 @@
   "Toogle linum-mode"
   (linum-mode)
   )
+
+(defun hh-new-empty-buffer ()
+  "Create a new empty buffer.
+New buffer will be named untitled or untitled<2>, untitled<3>, etc.
+
+It returns the buffer (for elisp programing).
+URL `http://ergoemacs.org/emacs/emacs_new_empty_buffer.html'
+Version 2017-11-01
+
+Source: http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
+"
+  (interactive)
+  (let (($buf (generate-new-buffer "untitled")))
+    (switch-to-buffer $buf)
+    (funcall initial-major-mode)
+    (setq buffer-offer-save t)
+    $buf
+    ))
+
+;;;;;;;;;;;;;;;;;;;;
+;;; set up unicode
+(set-language-environment  "UTF-8")
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+;; https://stackoverflow.com/questions/18316665/how-to-improve-emacs-performance-when-view-large-file
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)))
+
+(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
+
+
+(defun increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
+(defun eval-and-append ()
+  "Append the results of the preceeding sexp."
+  (interactive)
+  (backward-kill-sexp)
+  (yank)
+  (insert "\n")
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0))) (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
 
 
 (provide 'personal)

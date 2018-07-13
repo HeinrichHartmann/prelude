@@ -60,12 +60,16 @@
         org-shiftmetaright
         org-shiftright
         org-shifttab
+        org-transpose-words
         org-yank
         prelude-move-beginning-of-line
         sp-backward-delete-char
         sp-delete-char
         sp-kill-hybrid-sexp
         wdired-change-to-wdired-mode
+        wdired-next-line
+        wdired-previous-line
+        yas-expand
         zop-up-to-char
         ))
 
@@ -76,6 +80,7 @@
         indent-rigidly-left
         org-capture
         reposition-window
+        smex
         toggle-input-method
         wdired-finish-edit
         xterm-paste
