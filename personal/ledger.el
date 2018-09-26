@@ -1,3 +1,4 @@
+
 (defun ledger-my-add-entry (title in amount out)
   (interactive
    (let ((accounts (mapcar 'list (ledger-accounts))))

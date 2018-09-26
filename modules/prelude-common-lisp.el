@@ -57,7 +57,7 @@
 (setq slime-default-lisp 'sbcl)
 
 ;; Add fancy slime contribs
-(setq slime-contribs '(slime-fancy slime-cl-indent))
+;; (setq slime-contribs '(slime-fancy slime-cl-indent))
 
 (add-hook 'lisp-mode-hook (lambda () (run-hooks 'prelude-lisp-coding-hook)))
 ;; rainbow-delimeters messes up colors in slime-repl, and doesn't seem to work
@@ -69,7 +69,7 @@
 (eval-after-load "slime"
   '(progn
      (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-           slime-fuzzy-completion-in-place t
+           slime-fuzzy-completion-in-place nil
            slime-enable-evaluate-in-emacs t
            slime-autodoc-use-multiline-p t
            slime-auto-start 'always)
