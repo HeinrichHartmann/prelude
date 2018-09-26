@@ -24,10 +24,10 @@
 
 (defun wp-circ ()
     (interactive)
+    ;; (make-frame)
     ;; |1 |2  |3|
     ;; |  |-----|
     ;; |  |4    |
-    (make-frame)
     (delete-other-windows)
     (cd "~/circ-workbench")
     (neotree)
@@ -36,6 +36,7 @@
     (split-window-vertically -15)
     (next-multiframe-window) ;;-> 4
     (switch-to-buffer "*compilation*")
+    (window-preserve-size)
     (compilation-mode)
     (pin)
     (set-window-parameter (selected-window) 'window-numbering-nr 8)
@@ -48,7 +49,6 @@
     (previous-multiframe-window) ;; -> 2
     (find-file "~/circ-workbench/src/")
     )
-
 
 (provide 'workspaces)
 ;;; workspaces.el ends here

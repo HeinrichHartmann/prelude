@@ -75,11 +75,16 @@
 
 (setq mc/cmds-to-run-once
       '(
+        dired-display-file
+        dired-previous-line
         fill-paragraph
+        goto-line
         indent-rigidly
         indent-rigidly-left
+        ns-open-file-select-line
         org-capture
         reposition-window
+        revert-buffer
         smex
         toggle-input-method
         wdired-finish-edit

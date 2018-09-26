@@ -16,7 +16,7 @@
 ; set default font size
 ; (set-face-attribute 'default nil :height 110)
 (if (display-graphic-p)
-    (set-face-attribute 'default nil :height 100) ; graphic mode
+    (set-face-attribute 'default nil :height 110) ; graphic mode
     (set-face-attribute 'default nil :height 110) ; terminal mode
     )
 
@@ -125,22 +125,6 @@
 ;; http://splash-of-open-sauce.blogspot.de/2009/08/aspell-causing-emacs-to-hang.html
 (setq-default ispell-extra-args  '("--sug-mode=ultra"))
 
-
-;; focus compilation buffer after evaluation
-(defun hh-advice-focus (orig-fun &rest args)
-  (switch-to-buffer-other-window (apply orig-fun args)))
-(advice-add 'projectile-compile-project :around #'hh-advice-focus)
-
-;; Alrey part of prelude 
-;; (require 'ansi-color)
-;; (defun endless/colorize-compilation ()
-;;   "Colorize from `compilation-filter-start' to `point'."
-;;   (let ((inhibit-read-only t))
-;;     (ansi-color-apply-on-region
-;;      compilation-filter-start (point))))
-;; (add-hook 'compilation-filter-hook
-;;           #'endless/colorize-compilation)
-
 ;; Disable whitespace mode
 (setq prelude-whitespace nil)
 ;; Don't clean up whitespace on save
@@ -215,7 +199,6 @@ Source: http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
-
 (defun increment-number-at-point ()
   (interactive)
   (skip-chars-backward "0-9")
@@ -244,6 +227,78 @@ Source: http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
+;; open the eshell buffers in the same window
+
+(add-to-list 'same-window-regexps "\*eshell\*")
+(add-to-list 'same-window-regexps "\*magit: .*\*")
+
+(global-set-key (kbd "M-i") 'helm-imenu-anywhere)
+(global-set-key (kbd "C-M-i") 'imenu-anywhere)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
+
+;; Give some feedback after c-b-
+;; (advice-add 'eval-buffer :after #'(lambda () (message "eval-buffer success")))
+
+(global-hl-line-mode t)
+
+(require 'centered-cursor-mode)
+(global-centered-cursor-mode t)
+
+(defun wrap-at-sentences ()
+  "Fills the current paragraph, but starts each sentence on a new line."
+  (interactive)
+  (save-excursion
+    ;; Select the entire paragraph.
+    (mark-paragraph)
+    ;; Move to the start of the paragraph.
+    (goto-char (region-beginning))
+    ;; Record the location of the end of the paragraph.
+    (setq end-of-paragraph (region-end))
+    ;; Wrap lines with 'hard' newlines (i.e., real line breaks).
+    (let ((use-hard-newlines 't))
+      ;; Loop over each sentence in the paragraph.
+      (while (< (point) end-of-paragraph)
+        ;; Determine the region spanned by the sentence.
+        (setq start-of-sentence (point))
+        (forward-sentence)
+        ;; Wrap the sentence with hard newlines.
+        (fill-region start-of-sentence (point))
+        ;; Delete the whitespace following the period, if any.
+        (while (char-equal (char-syntax (preceding-char)) ?\s)
+          (delete-char -1))
+        ;; Insert a newline before the next sentence.
+        (insert "\n")))))
+
+(global-set-key (kbd "C-x M-q") 'wrap-at-sentences)
+
+(require 's)
+(defun epoch ()
+  (interactive)
+  (insert (s-trim-right (shell-command-to-string "date +%s"))))
+
+(defun date ()
+  (interactive)
+  (insert (s-trim-right (shell-command-to-string "date -u +%F"))))
+
+(defun date-sec ()
+  (interactive)
+  (insert (s-trim-right (shell-command-to-string "date -u +%Y-%m-%dT%H:%M:%SZ"))))
+
+;; (add-to-list 'auto-mode-alist '("\\.text\\'" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.png\\'" . image-mode))
+
+
+(defun tl-edit (&optional tlfile)
+  (interactive)
+  (find-file (or tlfile "~/notes/timeline.org") t)
+  (goto-char (point-max))
+  (let ((start (point)))
+    (insert (format "* %s " (format-time-string "%Y-%m-%d" (current-time))))
+    (narrow-to-region start (point))))
+
+(setq browse-url-browser-function 'w3m-browse-url)
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+(global-set-key (kbd "C-x m") 'browse-url-at-point)
 
 (provide 'personal)
 ;;; personal.el ends here

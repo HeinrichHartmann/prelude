@@ -12,16 +12,16 @@
 
 (global-set-key (kbd "M-P") 'windmove-up)
 (global-set-key (kbd "M-N") 'windmove-down)
-(global-set-key (kbd "M-A") 'windmove-left)
-(global-set-key (kbd "M-E") 'windmove-right)
-(global-set-key (kbd "M-O") 'other-window)
+; (global-set-key (kbd "M-A") 'windmove-left) collides with move to start/end of function
+; (global-set-key (kbd "M-E") 'windmove-right)
+; (global-set-key (kbd "M-O") 'other-window)
 
 ;; "two step" bindings
 
 (define-prefix-command 'window-action-map)
 
-(global-set-key (kbd "M-p") 'window-action-map)
-(global-set-key (kbd "C-]") 'window-action-map)
+; (global-set-key (kbd "M-p") 'window-action-map)
+; (global-set-key (kbd "C-]") 'window-action-map)
 
 (define-key window-action-map (kbd "o") 'other-window)
 (define-key window-action-map (kbd "\"") 'split-window-vertically)

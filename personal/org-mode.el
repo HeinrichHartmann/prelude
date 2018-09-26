@@ -11,8 +11,12 @@
 	(setq org-mobile-inbox-for-pull "~/notes/flagged.org")
 	;; Capture
 	(setq org-capture-templates
-	      '(("r" "Reading List" entry (file "~/notes/read.org")
-		 "* TODO %?\n:PROPERTIES:\n:ADDED: %u\n:END:"
+	      '(
+                ("t" "Timeline" entry (file "~/notes/timeline.org")
+		 "* %?\n:PROPERTIES:\n:ADDED: %u\n:END:"
+		 )
+                ("r" "Reading List" entry (file "~/notes/read.org")
+		 "* %?\n:PROPERTIES:\n:ADDED: %u\n:END:"
 		 )
 		("c" "Circonus Todo" entry (file+headline "~/notes/circonus.org" "PROJ NEW")
 		 "* TASK %?\n:LOGBOOK:\n- State \"TASK\"       from              %U\n:END:"
