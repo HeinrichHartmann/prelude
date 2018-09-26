@@ -287,7 +287,6 @@ Source: http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 ;; (add-to-list 'auto-mode-alist '("\\.text\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.png\\'" . image-mode))
 
-
 (defun tl-edit (&optional tlfile)
   (interactive)
   (find-file (or tlfile "~/notes/timeline.org") t)
@@ -299,6 +298,8 @@ Source: http://ergoemacs.org/emacs/emacs_new_empty_buffer.html
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
+
+
 
 (provide 'personal)
 ;;; personal.el ends here
