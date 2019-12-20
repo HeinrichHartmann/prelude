@@ -53,7 +53,7 @@
 ;;
 ;; swiper provides enhanced buffer search
 
-(global-set-key "\C-s" 'swiper)
+;; (global-set-key "\C-s" 'swiper)
 
 ;;; Counsel
 ;;
