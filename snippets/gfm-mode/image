@@ -1,0 +1,4 @@
+# key: <i
+# name: image
+# --
+![](/assets/$1.png?raw=true)

@@ -1,4 +1,4 @@
-;;; prelude-helm.el --- Helm setup
+f;;; prelude-helm.el --- Helm setup
 ;;
 ;; Copyright © 2011-2020 Bozhidar Batsov
 ;;

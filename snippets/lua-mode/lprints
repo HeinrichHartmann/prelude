@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lunity prints
+# key: <lp
+# --
+require("circlunity").prints("")

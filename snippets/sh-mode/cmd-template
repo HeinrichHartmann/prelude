@@ -1,0 +1,34 @@
+# -*- mode: snippet -*-
+# key: <cmd
+# name: Bash-cmd-template
+# --
+function usage {
+  echo "USAGE:
+
+    $0 <cmd>
+
+Where cmd in:
+
+$(cat $0 | grep "#--" | grep -v grep)
+"
+}
+[[ "$#" -eq 0 ]] && {
+  usage;
+  exit 1
+}
+while [[ "$#" -gt 0 ]]
+do
+  cmd=$1
+  shift
+  case $cmd in
+    "help") #-- Get help
+      usage
+      exit 0
+      ;;
+    *)
+      usage
+      exit 1
+      ;;
+  esac
+done
+exit 0

@@ -8,7 +8,8 @@
 (message "Loading personal.el")
 
 (mapcar 'prelude-require-package
-        '(multiple-cursors
+        '(use-package
+          multiple-cursors
           ag
           neotree
           ))
@@ -36,7 +37,7 @@
 
 ;; set default font size
 (if (display-graphic-p)
-    (set-face-attribute 'default nil :height 110) ; graphic mode
+    (set-face-attribute 'default nil :height 180) ; graphic mode
   (set-face-attribute 'default nil :height 110)) ; terminal mode
 
 (add-to-list 'default-frame-alist '(font . "Hack-11"))
@@ -152,6 +153,11 @@ New buffer will be named untitled or name<2>, name<3>, etc."
   (prin1 (eval (read (current-kill 0)))
          (current-buffer)))
 
+(defun hh-paste ()
+  (interactive)
+  (with-output-to-string
+    (call-process "pbpaste" nil standard-output "pbpaste")))
+
 ;;
 ;; Workaround compile command problems
 ;; https://github.com/bbatsov/projectile/issues/1270
@@ -169,6 +175,9 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 ;;
 ;; -- https://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
 
+
+(global-set-key (kbd "ESC ESC ESC") 'top-level) ;; break out of all recursive editing
+
 ;; Function Keys
 
 (global-set-key (kbd "S-<f5>") 'hh-save-restore)
@@ -179,11 +188,15 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 
 (global-set-key (kbd "<f9>") 'recompile)
 (global-set-key (kbd "C-x <f9>") (lambda () (interactive) (find-file "~/circ-workbench/compile.sh")))
+(global-set-key (kbd "M-<f9>") '(lambda () (interactive) (view-buffer "*compilation*")))
+
 ;; (global-set-key (kbd "<f10>") 'sh-send-line-or-region) ;; TOO DANGEROUS AS A GLOBAL BINDING
 ;; (global-set-key (kbd "<f11>") 'toggle-frame-fullscreen)
 (global-set-key (kbd "S-<f12>") 'hh-new-tmp-file)
 (global-set-key (kbd "<f12>") (lambda () (interactive) (org-capture nil org-capture-default-key)))
+(global-set-key (kbd "C-<f12>") (lambda () (interactive) (org-capture)))
 (global-set-key (kbd "C-x <f12>") (lambda () (interactive) (find-file "~/circ-workbench/agenda.org")))
+(global-set-key (kbd "<f13>") 'hh-print)
 
 
 ;; Query replace *regexp* by default
@@ -197,6 +210,18 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 ;; Repeat last command
 (global-set-key (kbd "C-c .") 'hh-insert-date)
 (global-set-key (kbd "C-c %") 'hh-query-replace-symbol-at-point)
+
+(require 'bind-key)
+(bind-key* "M-<tab>" 'projectile-next-project-buffer)
+(bind-key* "M-S-<tab>" 'projectile-previous-project-buffer)
+
+;;
+;; Post Initialization
+;;
+
+;; For _some_ reason we always end-up with debug-on-error set. We don't want this.
+(prelude-eval-after-init
+  (setq debug-on-error nil))
 
 (provide 'personal)
 ;;; personal.el ends here

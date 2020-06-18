@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: bash-template
+# key: <!
+# --
+#!/bin/bash
+#: Title : $1
+#: Date : `(format-time-string "%Y-%m-%d")`
+#: Author : "Heinrich Hartmann" <heinrich@heinrichhartmann.com>
+#: Version : 0.0.1
+#: Description :
+
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o noclobber

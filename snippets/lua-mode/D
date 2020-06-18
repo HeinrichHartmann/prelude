@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: lua_debug
+# key: <D
+# --
+local _LOG = logger("HH")
+local _T0 = circ.time()
+local D = function(...)
+  _LOG:debug {circ.time()-_T0, ...}
+end
+local DRST = function()
+  _T0 = circ.time()
+  D("RESET")
+end
