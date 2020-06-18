@@ -1,0 +1,3 @@
+[submodule "org-mode"]
+	path = vendor/_org-mode
+	url = https://code.orgmode.org/bzg/org-mode.git
