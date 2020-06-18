@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: perl-stacktrace
+# key: Ys
+# --
+use Carp;
+sub stack { cerror(Carp::longmess(), "trace"); }

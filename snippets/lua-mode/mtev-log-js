@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mtev.log
+# key: <ml
+# --
+mtev.log("error", "%s\\n",$1)

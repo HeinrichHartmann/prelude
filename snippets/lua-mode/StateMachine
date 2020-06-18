@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: StateMachine
+# key: <sm
+# --
+---
+--- @class $1StateMachine
+---
+local $1StateMachine = {}
+$1StateMachine.__index = $1StateMachine
+
+function $1StateMachine.new()
+  local self = setmetatable({}, $1StateMachine)
+  return self
+end
+
+function $1StateMachine:update(t, y)
+end
+
+function $1StateMachine:values()
+end

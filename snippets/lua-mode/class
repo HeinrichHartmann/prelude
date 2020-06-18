@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# key: <c
+# name: class
+# --
+
+---
+--- @class: $1
+---
+local $1 = {}
+$1.__index = $1
+
+function $1.new()
+  local self = setmetatable({}, $1)
+  return self
+end

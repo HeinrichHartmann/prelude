@@ -57,6 +57,10 @@
                      ":"))
               1 2))
 
+;; Match ^.lxxx used by LaTeX errors
+(add-to-list 'compilation-error-regexp-alist
+             (list (rx (seq line-start "l." (group (+ digit)))) 1 2))
+
 (add-hook 'compilation-mode-hook 'compilation-hook)
 
 (defun hh-cleanup-compile (buf str)

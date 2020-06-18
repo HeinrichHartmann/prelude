@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: lua-doc
+# key: <doc
+# --
+--/*!
+--\\lua a = mtev.func(p1, p2, ...)
+--\\brief Calles a function
+--\\param p1 is the first parameter.
+--\\return A value a
+--Long description follows at the end
+--*/

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: lua-quick-doc
+# key: <d
+# --
+--/*!
+--\lua ... = f()
+--*/

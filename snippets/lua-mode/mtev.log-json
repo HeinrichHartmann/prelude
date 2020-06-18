@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mtev.log json
+# key: <mlj
+# --
+mtev.log("error", "%s\\n", mtev.tojson($1):tostring())

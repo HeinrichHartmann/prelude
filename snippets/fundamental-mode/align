@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: align
+# key: <a
+# --
+BEGIN_MATH
+\begin{align}
+  & \nl
+  &
+\end{align}
+END_MATH
