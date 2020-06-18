@@ -1,7 +1,9 @@
+(setq ibuffer-expert t)
+
 (define-ibuffer-sorter filename-or-dired
   "Sort the buffers by their pathname."
   (:description "filenames plus dired")
-  (string-lessp 
+  (string-lessp
    (with-current-buffer (car a)
      (or buffer-file-name
          (if (eq major-mode 'dired-mode)
@@ -15,13 +17,13 @@
          ;; so that all non pathnames are at the end
          "~"))))
 
-(define-key ibuffer-mode-map (kbd "s p")     'ibuffer-do-sort-by-filename-or-dired)
+(define-key ibuffer-mode-map (kbd "s p") 'ibuffer-do-sort-by-filename-or-dired)
 
-;; (prelude-require-package 'ibuffer-projectile)
+(prelude-require-package 'ibuffer-projectile)
 
-;; (add-hook 'ibuffer-hook
-;;           (lambda ()
-;;             (local-set-key (kbd "G") (ibuffer-projectile-set-filter-groups))))
+(add-hook 'ibuffer-hook
+           (lambda ()
+             (local-set-key (kbd "G") (ibuffer-projectile-set-filter-groups))))
 
 ;; use project-relative file name
 ;; (setq ibuffer-formats

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: debug
+# key: Yd
+# --
+use Circonus::Log;
+use Data::Dumper;
+use Carp;
+sub trace { cerror(Dumper(@_),"trace"); }
+sub stack { cerror(Carp::longmess(), "trace"); }

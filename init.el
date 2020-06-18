@@ -77,13 +77,14 @@ by Prelude.")
   (make-directory prelude-savefile-dir))
 
 (defun prelude-add-subfolders-to-load-path (parent-dir)
-  "Add all level PARENT-DIR subdirs to the `load-path'."
-  (dolist (f (directory-files parent-dir))
-    (let ((name (expand-file-name f parent-dir)))
-      (when (and (file-directory-p name)
-                 (not (string-prefix-p "." f)))
-        (add-to-list 'load-path name)
-        (prelude-add-subfolders-to-load-path name)))))
+ "Add all level PARENT-DIR subdirs to the `load-path'."
+ (dolist (f (directory-files parent-dir))
+   (let ((name (expand-file-name f parent-dir)))
+     (when (and (file-directory-p name)
+                (not (string-prefix-p "." f))
+                (not (string-prefix-p "_" f)))
+       (add-to-list 'load-path name)
+       (prelude-add-subfolders-to-load-path name)))))
 
 ;; add Prelude's directories to Emacs's `load-path'
 (add-to-list 'load-path prelude-core-dir)

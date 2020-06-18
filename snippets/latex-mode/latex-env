@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: latex-env
+# key: <b
+# --
+\begin{$1}
+\end{$1}

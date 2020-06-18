@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Interface
+# key: <i
+# --
+--
+-- Interface: $1
+--
+local i$1 = I:new()

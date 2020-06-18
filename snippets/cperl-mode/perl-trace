@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: perl-trace
+# key: Yt
+# --
+use Circonus::Log;
+use Data::Dumper;
+sub trace { cerror(Dumper(@_),"trace"); }

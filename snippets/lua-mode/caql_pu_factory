@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: pu_factory
+# key: <pu
+# --
+:add_pu_factory(function(args, kwargs, context)
+local function pull(ctx, t)
+-- a table {y1, y2, ...}
+return ctx:pull(t)
+end
+local function fetch(ctx, start, period, count, timer)
+-- a bundle
+return ctx:fetch(start, period, count, timer)
+end
+local function meta()
+-- a list of meta objects
+return { Meta:new() }
+end
+return ProcessingUnit:new(pull, fetch, meta)
+end)

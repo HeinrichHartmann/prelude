@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mtev-stacktrace
+# key: <s
+# --
+mtev_stacktrace(mtev_error);

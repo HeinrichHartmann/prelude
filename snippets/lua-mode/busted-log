@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: busted-log
+# key: <snowthdout
+# --
+local snowthdout = io.open(topo:node(1):workspaceroot() .. "/snowthd.out"):read("*a")
+mtev.log("stdout", "\n\n===snowthd.out===\n%s\n===snowthd.out===\n\n", snowthdout)

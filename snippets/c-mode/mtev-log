@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mtevLog
+# key: <L
+# --
+mtevL(mtev_error, "$0\n");
