@@ -37,10 +37,10 @@
 
 ;; set default font size
 (if (display-graphic-p)
-    (set-face-attribute 'default nil :height 180) ; graphic mode
+    (set-face-attribute 'default nil :height 120) ; graphic mode
   (set-face-attribute 'default nil :height 110)) ; terminal mode
 
-(add-to-list 'default-frame-alist '(font . "Hack-11"))
+;; (add-to-list 'default-frame-alist '(font . "Hack-11"))
 
 ;; Unicode
 (set-language-environment  "UTF-8")
@@ -158,6 +158,17 @@ New buffer will be named untitled or name<2>, name<3>, etc."
   (with-output-to-string
     (call-process "pbpaste" nil standard-output "pbpaste")))
 
+;; https://stackoverflow.com/questions/15869131/emacs-shell-command-on-buffer
+(defun hh-shell-command-on-buffer ()
+  (interactive)
+  (let ((line (line-number-at-pos)))
+    ;; replace buffer with output of shell command
+    (shell-command-on-region (point-min) (point-max) (read-shell-command "Shell command on buffer: ") nil t)
+    ;; restore cursor position
+    (goto-line line)
+    (recenter-top-bottom)))
+
+
 ;;
 ;; Workaround compile command problems
 ;; https://github.com/bbatsov/projectile/issues/1270
@@ -182,7 +193,7 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 
 (global-set-key (kbd "S-<f5>") 'hh-save-restore)
 (global-set-key (kbd "<f5>") (lambda () (interactive) (revert-buffer t t)))
-;; (global-set-key (kbd "<f6>") )
+(global-set-key (kbd "<f6>") 'hh-shell-command-on-buffer)
 ;; (global-set-key (kbd "<f7>") )
 (global-set-key (kbd "<f8>") (lambda () (interactive) (find-file "~/.emacs.d/personal/personal.el")))
 
@@ -200,6 +211,7 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 
 
 ;; Query replace *regexp* by default
+(global-set-key (kbd "M-%") 'query-replace-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 
 ;; imenu-anywhere
