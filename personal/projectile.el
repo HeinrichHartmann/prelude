@@ -4,7 +4,7 @@
 
 (setq projectile-mode-line " PROJ")
 
-(setq projectile-switch-project-action (lambda () (magit-status)))
+(setq projectile-switch-project-action (lambda () (helm-projectile-find-file-dwim)))
 
 ;; (define-key projectile-mode-map (kbd "C-c g") 'w3m-browse-url)
 ;; (define-key projectile-mode-map (kbd "C-c s") 'w3m-search)
@@ -24,7 +24,8 @@
 ;; (global-set-key (kbd "C-c a") 'counsel-ag)
 ;; (global-set-key (kbd "C-x l") 'counsel-locate)
 
-
 ;; (setq projectile-file-exists-remote-cache-expire nil)
 ;; (setq projectile-enable-caching nil)
-;; (setq projectile-enable-caching t)
+
+(setq projectile-enable-caching t)
+(setq projectile-indexing-method 'alien)

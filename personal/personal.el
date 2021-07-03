@@ -14,9 +14,9 @@
           neotree
           ))
 
-(when (eq system-type 'darwin)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier nil))
+;; (when (eq system-type 'darwin)
+;;   (setq mac-command-modifier 'meta)
+;;   (setq mac-option-modifier nil))
 
 ;;
 ;; Global Configuration
@@ -60,6 +60,7 @@
 ;;
 
 (setq-default fill-column 100)
+(setq-default whitespace-line-column 100)
 
 (setq prelude-clean-whitespace-on-save nil)
 
@@ -201,6 +202,7 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 (global-set-key (kbd "C-<f12>") (lambda () (interactive) (org-capture)))
 (global-set-key (kbd "C-x <f12>") (lambda () (interactive) (find-file "~/circ-workbench/agenda.org")))
 (global-set-key (kbd "<f13>") 'hh-print)
+(global-set-key (kbd "S-<f13>") 'hh-print-now)
 
 
 ;; Query replace *regexp* by default

@@ -9,3 +9,8 @@
                          (flycheck-mode nil)))
   :config (lambda ()
           (setq lsp-python-ms-executable "~/bin/Microsoft.Python.LanguageServer")))
+
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))

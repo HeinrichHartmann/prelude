@@ -36,10 +36,16 @@
 (require 'lsp-ui)
 (require 'lsp-ui-imenu)
 
-(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-(define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-ui-peek-find-references)
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+(define-key lsp-ui-mode-map (kbd "C-c C-l C-p .") 'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map (kbd "C-c C-l C-p ?") 'lsp-ui-peek-find-references)
+(define-key lsp-ui-mode-map (kbd "C-c C-l C-p i") 'lsp-ui-peek-find-implementation)
+(define-key lsp-ui-mode-map (kbd "C-c C-l C-p w") 'lsp-ui-peek-find-workspace-symbol)
+(define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-find-definition)
+(define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-find-references)
+(define-key lsp-ui-mode-map (kbd "C-c C-l i") 'lsp-find-implementation)
+
 (define-key lsp-ui-mode-map (kbd "C-c C-l r") 'lsp-rename)
 (define-key lsp-ui-mode-map (kbd "C-c C-l x") 'lsp-workspace-restart)
 (define-key lsp-ui-mode-map (kbd "C-c C-l w") 'lsp-ui-peek-find-workspace-symbol)
@@ -50,7 +56,9 @@
 (setq lsp-ui-sideline-enable t)
 (setq lsp-ui-doc-enable t)
 (setq lsp-ui-peek-enable t)
-(setq lsp-ui-peek-always-show t)
+(setq lsp-ui-peek-always-show nil)
+(setq lsp-ui-imenu-enable t)
+
 
 (provide 'prelude-lsp)
 ;;; prelude-lsp.el ends here
