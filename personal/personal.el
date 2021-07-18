@@ -7,21 +7,6 @@
 
 (message "Loading personal.el")
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
-(mapcar 'prelude-require-package
-        '(use-package
-          multiple-cursors
-          ag
-          neotree
-          s
-          bind-key))
-
 (require 's)
 (require 'bind-key)
 (require 'use-package)
@@ -173,8 +158,6 @@ New buffer will be named untitled or name<2>, name<3>, etc."
   (with-output-to-string
     (call-process "pbpaste" nil standard-output "pbpaste")))
 
-<<<<<<< HEAD
-=======
 ;; https://stackoverflow.com/questions/15869131/emacs-shell-command-on-buffer
 (defun hh-shell-command-on-buffer ()
   (interactive)
@@ -219,7 +202,6 @@ New buffer will be named untitled or name<2>, name<3>, etc."
     (kill-line)
     (insert (format "[%s...](%s)" short-str str))))
 
->>>>>>> origin/master
 ;;
 ;; Workaround compile command problems
 ;; https://github.com/bbatsov/projectile/issues/1270
@@ -275,10 +257,6 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 ;; Repeat last command
 (global-set-key (kbd "C-c .") 'hh-insert-date)
 (global-set-key (kbd "C-c %") 'hh-query-replace-symbol-at-point)
-
-;; (require 'bind-key)
-;; (bind-key* "M-<tab>" 'projectile-next-project-buffer)
-;; (bind-key* "M-S-<tab>" 'projectile-previous-project-buffer)
 
 ;;
 ;; Post Initialization
