@@ -8,9 +8,5 @@
                          (require 'lsp-python-ms)
                          (flycheck-mode nil)))
   :config (lambda ()
-          (setq lsp-python-ms-executable "~/bin/Microsoft.Python.LanguageServer")))
-
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
+            (setq lsp-python-ms-log-level "Info")
+            (setq lsp-python-ms-executable "~/bin/Microsoft.Python.LanguageServer")))

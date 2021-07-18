@@ -19,6 +19,5 @@
    (set (make-local-variable 'company-backends) '(company-go))
    (local-set-key (kbd "M-.") 'godef-jump)
    (go-eldoc-setup)
-                                        ; call Gofmt before saving
    (add-hook 'before-save-hook 'gofmt-before-save)))
 
