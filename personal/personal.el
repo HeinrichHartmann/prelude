@@ -7,16 +7,27 @@
 
 (message "Loading personal.el")
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
 (mapcar 'prelude-require-package
         '(use-package
           multiple-cursors
           ag
           neotree
-          ))
+          s
+          bind-key))
 
-;; (when (eq system-type 'darwin)
-;;   (setq mac-command-modifier 'meta)
-;;   (setq mac-option-modifier nil))
+(require 's)
+(require 'bind-key)
+(require 'use-package)
+
+
+
 
 ;;
 ;; Global Configuration
@@ -41,10 +52,10 @@
 
 ;; set default font size
 (if (display-graphic-p)
-    (set-face-attribute 'default nil :height 180) ; graphic mode
+    (set-face-attribute 'default nil :height 120) ; graphic mode
   (set-face-attribute 'default nil :height 110)) ; terminal mode
 
-(add-to-list 'default-frame-alist '(font . "Hack-11"))
+;; (add-to-list 'default-frame-alist '(font . "Hack-11"))
 
 ;; Unicode
 (set-language-environment  "UTF-8")
@@ -61,7 +72,6 @@
 
 (setq-default fill-column 100)
 (setq-default whitespace-line-column 100)
-
 (setq prelude-clean-whitespace-on-save nil)
 
 ;; indentation
@@ -163,6 +173,53 @@ New buffer will be named untitled or name<2>, name<3>, etc."
   (with-output-to-string
     (call-process "pbpaste" nil standard-output "pbpaste")))
 
+<<<<<<< HEAD
+=======
+;; https://stackoverflow.com/questions/15869131/emacs-shell-command-on-buffer
+(defun hh-shell-command-on-buffer ()
+  (interactive)
+  (let ((line (line-number-at-pos)))
+    ;; replace buffer with output of shell command
+    (shell-command-on-region (point-min) (point-max) (read-shell-command "Shell command on buffer: ") nil t)
+    ;; restore cursor position
+    (goto-line line)
+    (recenter-top-bottom)))
+
+;; https://www.emacswiki.org/emacs/IncrementNumber
+(defun hh-increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun hh-instant-web-search-at-point ()
+  (interactive)
+  "Search for word at point"
+  (browse-url
+   ;; duckduckgo query "! search term" directly jumpt so first match
+   (concat "https://duckduckgo.com/?t=lm&q=!%20" (url-hexify-string (thing-at-point 'symbol)))))
+
+(defun hh-paper-search-at-point ()
+  (interactive)
+  "Search for paper"
+  (let ((thing
+         (if mark-active
+             (buffer-substring (mark) (point))
+             (thing-at-point 'symbol))))
+    (browse-url
+     ;; duckduckgo query "! search term" directly jumpt so first match
+     (concat "https://www.semanticscholar.org/search?sort=relevance&q=" (url-hexify-string thing)))))
+
+(defun hh-md-shorten-link ()
+  (interactive)
+  (let* (
+        (str (s-trim (thing-at-point 'line 'no-properties)))
+        (short-str (substring str 0 80)))
+    (kill-line)
+    (insert (format "[%s...](%s)" short-str str))))
+
+>>>>>>> origin/master
 ;;
 ;; Workaround compile command problems
 ;; https://github.com/bbatsov/projectile/issues/1270
@@ -184,15 +241,18 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 (global-set-key (kbd "ESC ESC ESC") 'top-level) ;; break out of all recursive editing
 
 ;; Function Keys
+(global-set-key (kbd "<f1>") 'hh-instant-web-search-at-point)
+(global-set-key (kbd "S-<f1>") 'hh-paper-search-at-point)
 
 (global-set-key (kbd "S-<f5>") 'hh-save-restore)
 (global-set-key (kbd "<f5>") (lambda () (interactive) (revert-buffer t t)))
-;; (global-set-key (kbd "<f6>") )
+(global-set-key (kbd "<f6>") 'hh-shell-command-on-buffer)
 ;; (global-set-key (kbd "<f7>") )
 (global-set-key (kbd "<f8>") (lambda () (interactive) (find-file "~/.emacs.d/personal/personal.el")))
+(global-set-key (kbd "S-<f8>") (lambda () (interactive) (find-file "~/.shell.d/")))
 
 (global-set-key (kbd "<f9>") 'recompile)
-(global-set-key (kbd "C-x <f9>") (lambda () (interactive) (find-file "~/circ-workbench/compile.sh")))
+(global-set-key (kbd "C-x <f9>") (lambda () (interactive) (find-file (s-concat (projectile-project-root) "/compile.sh"))))
 (global-set-key (kbd "M-<f9>") '(lambda () (interactive) (view-buffer "*compilation*")))
 
 ;; (global-set-key (kbd "<f10>") 'sh-send-line-or-region) ;; TOO DANGEROUS AS A GLOBAL BINDING
@@ -200,9 +260,8 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 (global-set-key (kbd "S-<f12>") 'hh-new-tmp-file)
 (global-set-key (kbd "<f12>") (lambda () (interactive) (org-capture nil org-capture-default-key)))
 (global-set-key (kbd "C-<f12>") (lambda () (interactive) (org-capture)))
-(global-set-key (kbd "C-x <f12>") (lambda () (interactive) (find-file "~/circ-workbench/agenda.org")))
 (global-set-key (kbd "<f13>") 'hh-print)
-(global-set-key (kbd "S-<f13>") 'hh-print-now)
+;; (global-set-key (kbd "S-<f13>") 'hh-print-now)
 
 
 ;; Query replace *regexp* by default
@@ -217,14 +276,13 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 (global-set-key (kbd "C-c .") 'hh-insert-date)
 (global-set-key (kbd "C-c %") 'hh-query-replace-symbol-at-point)
 
-(require 'bind-key)
-(bind-key* "M-<tab>" 'projectile-next-project-buffer)
-(bind-key* "M-S-<tab>" 'projectile-previous-project-buffer)
+;; (require 'bind-key)
+;; (bind-key* "M-<tab>" 'projectile-next-project-buffer)
+;; (bind-key* "M-S-<tab>" 'projectile-previous-project-buffer)
 
 ;;
 ;; Post Initialization
 ;;
-
 ;; For _some_ reason we always end-up with debug-on-error set. We don't want this.
 (prelude-eval-after-init
   (setq debug-on-error nil))

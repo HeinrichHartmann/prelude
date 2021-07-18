@@ -10,3 +10,4 @@
   :config (lambda ()
             (setq lsp-python-ms-log-level "Info")
             (setq lsp-python-ms-executable "~/bin/Microsoft.Python.LanguageServer")))
+

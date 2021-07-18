@@ -149,7 +149,7 @@ by Prelude.")
   (message "[Prelude] Loading personal configuration files in %s..." prelude-personal-dir)
   (mapc 'load (delete
                prelude-modules-file
-               (directory-files prelude-personal-dir 't "^[^#\._].*\\.el$"))))
+               (directory-files prelude-personal-dir 't "^[^_#\.].*\\.el$"))))
 
 (message "[Prelude] Prelude is ready to do thy bidding, Master %s!" prelude-user)
 

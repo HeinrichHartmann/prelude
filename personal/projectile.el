@@ -4,6 +4,8 @@
 
 (setq projectile-mode-line " PROJ")
 
+;; (setq projectile-switch-project-action (lambda () (magit-status)))
+;; (setq projectile-switch-project-action 'neotree-projectile-action)
 (setq projectile-switch-project-action (lambda () (helm-projectile-find-file-dwim)))
 
 ;; (define-key projectile-mode-map (kbd "C-c g") 'w3m-browse-url)

@@ -33,7 +33,6 @@
   (use-local-map gfm-narrowed-map)
   (markdown-narrow-to-subtree))
 
-
 (defun markdown-html (buffer)
   (princ (with-current-buffer buffer
            (format
