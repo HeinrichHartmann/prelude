@@ -24,6 +24,7 @@
 
 (require 's)
 (require 'bind-key)
+(require 'use-package)
 
 ;;
 ;; Global Configuration
