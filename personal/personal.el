@@ -20,8 +20,7 @@
           ag
           neotree
           s
-          bind-key
-          ))
+          bind-key))
 
 (require 's)
 (require 'bind-key)
@@ -259,7 +258,6 @@ New buffer will be named untitled or name<2>, name<3>, etc."
 
 
 ;; Query replace *regexp* by default
-(global-set-key (kbd "M-%") 'query-replace-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 
 ;; imenu-anywhere
